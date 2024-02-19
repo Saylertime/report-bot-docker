@@ -12,6 +12,7 @@ DEFAULT_COMMANDS = (
     ("start", "Запустить бота"),
     ("authors", "Все авторы"),
     ("free_authors", "Свободные авторы"),
+    ("free_texts", "Свободные брифы"),
     ("new_author", "Добавить автора"),
     ("money", "Гонорары за месяц"),
     ("test", "test"),
