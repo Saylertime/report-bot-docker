@@ -1,0 +1,27 @@
+version: '3.2'
+services:
+  report_bot:
+    build:
+      context: report_bot
+    stop_signal: SIGKILL
+    ports:
+      - 8080:8080
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - webnet
+
+networks:
+  webnet:
