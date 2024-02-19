@@ -154,6 +154,59 @@ def who_is_free():
         return str(err)
 
 
+
+def brief_is_free():
+    SAMPLE_RANGE_NAME = "Февраль 2024!A2:J"
+    print(SAMPLE_RANGE_NAME)
+
+    try:
+        service = build("sheets", "v4", credentials=creds)
+
+        sheet = service.spreadsheets()
+        result = (
+            sheet.values()
+            .get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME)
+            .execute()
+        )
+        values = result.get("values", [])
+
+        if not values:
+            print("No data found.")
+            return
+
+        all_briefs = []
+        for row in values:
+            try:
+                title = row[0]
+                brief = row[3]
+                author = row[2]
+                money = str(row[6])
+                symbs = str(row[8])
+                print(symbs)
+                if brief and not author:
+                    temp_row = f"{title}\n" \
+                               f"{brief}\n" \
+                               f"Объем: {symbs} тыс. символов\n" \
+                               f"Гонорар: {money}\n\n"
+                    all_briefs.append(temp_row)
+            except:
+                pass
+
+        msg = ''
+        for num, brief in enumerate(all_briefs, start=1):
+            msg += f"{num}. {brief}"
+
+        return msg
+
+    except HttpError as err:
+        print(err)
+        return str(err)
+
+
+
+
+
+
 def stats_for_month(month):
     SAMPLE_RANGE_NAME = f"{month}!A2:G"
     try:
@@ -203,6 +256,7 @@ def stats_for_month(month):
               f'ПРОСТЫХ ТЕКСТОВ — {plain_count} и {plain_symbs} символов'
 
         return msg
+
 
     except HttpError as err:
         print(err)

@@ -2,7 +2,7 @@ import psycopg2
 
 
 def add_author(name, nickname, name_in_db, about='', phone=''):
-    # create_db()
+    create_db()
 
     conn = psycopg2.connect(dbname="postgres", user="postgres", password="postgres", host="postgres")
     cursor = conn.cursor()
@@ -17,6 +17,7 @@ def add_author(name, nickname, name_in_db, about='', phone=''):
     conn.close()
 
 def all_authors():
+    create_db()
     conn = psycopg2.connect(dbname="postgres", user="postgres", password="postgres", host="postgres")
     cursor = conn.cursor()
     conn.autocommit = True
@@ -39,3 +40,4 @@ def create_db():
     cursor.execute(sql)
     cursor.close()
     conn.close()
+
